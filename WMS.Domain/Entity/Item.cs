@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WMS
+namespace WMS.Domain
 {
-    public class Item
-    {
+    public class Item : Category 
+    { 
         
-        public int Id { get; set; }
+        public int Id { get;}
         public string Name { get; set; }
         public int Quantity { get; set; }
-        public bool OnStock { get; set;}
-        public Item(int id, string name, int quantity)
+        public bool OnStock { get; set; }
+        public Item(int categoryId, string categoryName, int id, string name, int quantity) : base(categoryId, categoryName)
         {
             Id = id;
             Name = name;
             Quantity = quantity;
         }
+        // AuditableModel auditableModel = new AuditableModel();
+       
         public void IsOnStock()
         {
             if(Quantity>0)
@@ -29,8 +31,8 @@ namespace WMS
             }
 
         }
-        public void IsLowAlert()
-            {
+        public void IsLow()
+        {
             if(Quantity<5)
             {
                 Console.WriteLine($"Warning. The quantity of {Name} is less than 5");
@@ -39,7 +41,10 @@ namespace WMS
             {
                 Console.WriteLine($"Calm down! The quantity of {Name} is more than 5");
             }
-            }
-        
+        }
+       
+
+
+
     }
 }

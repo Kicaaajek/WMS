@@ -2,42 +2,71 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using WMS.App.Concrete;
+using WMS.Domain;
 
-namespace WMS
+namespace WMS.App
 {
-    public class Service
+    public class Service 
     {
+        public List<Category> listOfCategories = new List<Category>();
         public List<Item> listOfItems = new List<Item>();
         public void AddItem()
         {
-            Console.WriteLine("What item do you want to add?");
-            string nameItem = Console.ReadLine();
-            bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
-            if(beExist)
+            Console.WriteLine("What is category of item which you want to add?");
+            string nameCat = Console.ReadLine();
+            bool beExistCategory = listOfCategories.Exists(Category => Category.CategoryName == nameCat);
+            if (beExistCategory)
             {
+                Console.WriteLine("What item do you want to add?");
+                string nameItem = Console.ReadLine();
+                bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
                 Console.WriteLine("How many items do you want to add?");
                 int.TryParse(Console.ReadLine(), out int number);
-                foreach (var item in listOfItems)
+                if (beExist)
                 {
-                    if(item.Name==nameItem)
+                    foreach (var item in listOfItems)
                     {
-                        item.Quantity += number;
+                        if (item.Name == nameItem)
+                        {
+                            item.Quantity += number;
+                        }
+                        Console.WriteLine($"You add {number} {nameItem}`s.");
                     }
+                }
+                else
+                {
+                    int idCat=0;
+                    foreach (var c in listOfCategories)
+                    {
+                        if (c.CategoryName == nameCat)
+                        {
+                            idCat = c.CategoryId;
+                        }
+                        break;
+                    }
+                    Item item = new Item(idCat, nameCat, listOfItems.Count, nameItem, number);
+                    listOfItems.Add(item);
                     Console.WriteLine($"You add {number} {nameItem}`s.");
                 }
             }
             else
             {
+                Category category = new Category(listOfCategories.Count, nameCat);
+                listOfCategories.Add(category);
+                Console.WriteLine("What item do you want to add?");
+                string nameItem = Console.ReadLine();
                 Console.WriteLine("How many items do you want to add?");
                 int.TryParse(Console.ReadLine(), out int number);
-                Item item = new Item(listOfItems.Count, nameItem, number);
+                Item item = new Item(listOfCategories.Count, nameCat, listOfItems.Count, nameItem, number);
                 listOfItems.Add(item);
                 Console.WriteLine($"You add {number} {nameItem}`s.");
             }
         }
+        
         public void RemoveItem()
         {
-            Console.WriteLine("What item do you want to add?");
+            Console.WriteLine("What item do you want to remove?");
             string nameItem = Console.ReadLine();
             bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
             if (beExist)
@@ -58,7 +87,9 @@ namespace WMS
                         }
                     }
                     Console.WriteLine($"You remove {number} {nameItem}`s.");
+                    break;
                 }
+                
             }
             else
             {
@@ -67,7 +98,7 @@ namespace WMS
         }
         public void Availability()
         {
-            Console.WriteLine("What quantity product do you want to check?");
+            Console.WriteLine("What quantity of product do you want to check?");
             string nameItem = Console.ReadLine();
             bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
             if(beExist)
@@ -78,6 +109,7 @@ namespace WMS
                     {
                         Console.WriteLine("The quantity of product is: " + item.Quantity);
                     }
+                    break;
                 }
             }
             else
@@ -94,7 +126,15 @@ namespace WMS
             {
                 foreach (var item in listOfItems)
                 {
-                    item.IsLowAlert();
+                   
+                    if(!item.OnStock)
+                    {
+                        Console.WriteLine($"Sorry, {item.Name} is out of stock ");
+                    }
+                    else
+                    {
+                        item.IsLow();
+                    }
                 }
             }
             else
@@ -102,49 +142,25 @@ namespace WMS
                 Console.WriteLine("Sorry, this product is out of stock");
             }
         }
-        //public List<Category> listOfCategories = new List<Category>();
-      /*  public void AddItem()
+        public void ShowCategories()
         {
-            Console.WriteLine("What is category of item which you want to add?");
-            string oCategoryName = Console.ReadLine();
-            //Item foundItem = listOfItem.Find(oElement => oElement.name == variable);
-            bool beExist = listOfCategories.Exists(Category => Category.Name.Equals(oCategoryName));
-            if (beExist == true)
+            
+            foreach(var category in listOfCategories)
             {
-                Console.WriteLine("What item do you want to add?");
-                string oItemName = Console.ReadLine();
-                bool beExisted = Category.listOfItems.Exists(Item => Item.Name.Equals(oItemName));
 
-                if (beExisted == true)
-                {
-                    Console.WriteLine("How many items do you want to add?");
-                    int x;
-                    int.TryParse(Console.ReadLine(), out int a);
-                    Item findItem = listOfItems.Find(Item => Item.Name == oItemName);
-                    findItem.Quantity += a;
-                }
-                else
-                {
-                    Console.WriteLine("How many items do you want to add?");
-                    int x;
-                    x = int.Parse(Console.ReadLine());
-                    int id = listOfItems.Count;
-                    listOfItems.Add(new Item(oCategoryName.Id,id++, oItemName, x, true));
-
-
-                }
+                Console.WriteLine(category.CategoryId + ". " + category.CategoryName);
             }
-            else
+
+        }
+        public void ShowItems()
+        {
+            foreach (var item in listOfItems)
             {
-                int countCategory = listOfCategories.Count;
-                listOfCategories.Add(new Category(countCategory, oCategoryName));
-                Console.WriteLine("What item do you want to add?");
-                string oItemName = Console.ReadLine();
-                //List<Item> oCategoryName = new List<Item>();
-                Console.WriteLine("How many items do you want to add?");
-                int.TryParse(Console.ReadLine(),out int x);
-                //oCategoryName.Add(new Item(countCategory, 1, oItemName, x));
+
+                Console.WriteLine(item.Id + ". " + item.Name );
             }
-        }*/
+        }
+       
+
     }
 }
