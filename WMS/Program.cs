@@ -5,6 +5,7 @@ using System.Dynamic;
 using System.Linq.Expressions;
 using WMS.App;
 using WMS.App.Concrete;
+using WMS.App.Menagers;
 using WMS.Domain;
 
 namespace WMS
@@ -14,8 +15,9 @@ namespace WMS
         static void Main(string[] args)
         {
             int choice;
-            Service service = new Service();
+            ItemService service = new ItemService();
             MenuService menuService = new MenuService();
+            ItemManager itemManager = new ItemManager();
             User user = new User();
             Console.WriteLine("Welcome to warehouse app!");
             user.Login();
@@ -34,27 +36,27 @@ namespace WMS
                 {
                     case 1:
                         {
-                            service.AddItem();
+                            itemManager.AddItem();
                             break;
                         }
                     case 2:
                         {
-                            service.RemoveItem();
+                            itemManager.RemoveItem();
                             break;
                         }
                     case 3:
                         {
-                            service.Availability();
+                            itemManager.Availability();
                             break;
                         }
                     case 4:
                         {
-                            service.IsLowLevel();
+                            itemManager.IsLowLevel();
                             break;
                         }
                     case 5:
                         {
-                            service.ShowCategories();
+                            itemManager.ShowCategories();
                             break;
                         }
                     case 6:

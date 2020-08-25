@@ -8,9 +8,10 @@ namespace WMS.App.Abstract
     {
         List<T> Items { get; set; }
         List<T> GetAllItems();
-        int AddItem(T item);
+        void AddItem(T item);
         void RemoveItem(T item);
         int GetLastId();
         T GetItemById(int id);
+        T GetItemByName(string name);
     }
 }

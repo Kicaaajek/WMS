@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WMS.App.Abstract;
+using WMS.Domain;
 using WMS.Domain.Common;
 
 namespace WMS.App.Concrete
@@ -14,10 +15,9 @@ namespace WMS.App.Concrete
         {
             Items = new List<T>();
         }
-        public int AddItem(T item)
+        public void AddItem(T item)
         {
             Items.Add(item);
-            return item.Id;
         }
 
         public List<T> GetAllItems()
@@ -47,6 +47,11 @@ namespace WMS.App.Concrete
         public T GetItemById(int id)
         {
             var entity = Items.FirstOrDefault(p => p.Id == id);
+            return entity;
+        }
+        public T GetItemByName(string name)
+        {
+            var entity = Items.FirstOrDefault(p => p.Name == name);
             return entity;
         }
     }
