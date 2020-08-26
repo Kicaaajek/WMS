@@ -49,10 +49,10 @@ namespace WMS.App.Concrete
             var entity = Items.FirstOrDefault(p => p.Id == id);
             return entity;
         }
-        public T GetItemByName(string name)
+        /*public T GetItemByName(string name)
         {
             var entity = Items.FirstOrDefault(p => p.Name == name);
             return entity;
-        }
+        }*/
     }
 }

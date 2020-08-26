@@ -10,9 +10,11 @@ namespace WMS.App.Menagers
     public class ItemManager 
     {
         private ItemService _itemService;
+        private CategoryService _categoryService;
         public ItemManager()
         {
             _itemService= new ItemService();
+            _categoryService = new CategoryService();
         }
         public List<Category> listOfCategories = new List<Category>();
         public List<Item> listOfItems = new List<Item>();
@@ -21,27 +23,26 @@ namespace WMS.App.Menagers
         {
             Console.WriteLine("What is category of item which you want to add?");
             string nameCat = Console.ReadLine();
-            bool beExistCategory = listOfCategories.Exists(Category => Category.CategoryName == nameCat);
+            bool beExistCategory = _categoryService.Existed(nameCat);
+            //bool beExistCategory = listOfCategories.Exists(Category => Category.CategoryName == nameCat);
             if (beExistCategory)
             {
                 Console.WriteLine("What item do you want to add?");
                 string nameItem = Console.ReadLine();
-                bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
+                bool beExist = _itemService.Existed(nameItem);
+                //bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
                 Console.WriteLine("How many items do you want to add?");
                 int.TryParse(Console.ReadLine(), out int number);
                 if (beExist)
                 {
-                    var newItem = _itemService.GetItemByName(nameItem);
-                    newItem.Quantity += number;
-                    Console.WriteLine($"You add {number} {nameItem}`s.");
-                   /* foreach (var item in listOfItems)
+                    foreach (var item in listOfItems)
                     {
                         if (item.Name == nameItem)
                         {
                             item.Quantity += number;
                         }
                         Console.WriteLine($"You add {number} {nameItem}`s.");
-                    }*/
+                    }
                 }
                 else
                 {
@@ -51,7 +52,7 @@ namespace WMS.App.Menagers
                     {
                         if (c.CategoryName == nameCat)
                         {
-                            idCat = c.CategoryId;
+                            idCat = c.Id;
                         }
                         break;
                     }
@@ -64,7 +65,8 @@ namespace WMS.App.Menagers
             else
             {
                 Category category = new Category(listOfCategories.Count, nameCat);
-                listOfCategories.Add(category);
+                //listOfCategories.Add(category);
+                _categoryService.AddItem(category);
                 Console.WriteLine("What item do you want to add?");
                 string nameItem = Console.ReadLine();
                 Console.WriteLine("How many items do you want to add?");
@@ -79,12 +81,16 @@ namespace WMS.App.Menagers
         {
             Console.WriteLine("What item do you want to remove?");
             string nameItem = Console.ReadLine();
-            bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
+            bool beExist = _itemService.Existed(nameItem);
+            //bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
             if (beExist)
             {
                 Console.WriteLine("How many items do you want to remove?");
                 int.TryParse(Console.ReadLine(), out int number);
-                var item = _itemService.GetItemByName(nameItem);
+                foreach (var item in listOfItems)
+                {
+                    if (item.Name == nameItem)
+                    {
                         if (item.Quantity >= number)
                         {
                             item.Quantity -= number;
@@ -93,6 +99,8 @@ namespace WMS.App.Menagers
                         {
                             Console.WriteLine("Sorry, you want remove too many items. You don`t have it on stock");
                         }
+                    }
+                }
                     Console.WriteLine($"You remove {number} {nameItem}`s.");
             }
             else
@@ -104,11 +112,16 @@ namespace WMS.App.Menagers
         {
             Console.WriteLine("What quantity of product do you want to check?");
             string nameItem = Console.ReadLine();
-            bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
+            bool beExist = _itemService.Existed(nameItem);
+            //bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
             if (beExist)
             {
-                var item = _itemService.GetItemByName(nameItem);
-                Console.WriteLine("The quantity of product is: " + item.Quantity);
+                //var item = _itemService.GetItemByName(nameItem);
+                foreach (var item in listOfItems)
+                {
+                    if(item.Name==nameItem)
+                        Console.WriteLine("The quantity of product is: " + item.Quantity);
+                }
             }
             else
             {
@@ -119,31 +132,39 @@ namespace WMS.App.Menagers
         {
             Console.WriteLine("What item do you want to check that run out?");
             string nameItem = Console.ReadLine();
-            bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
+            bool beExist = _itemService.Existed(nameItem);
+            //bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
             if (beExist)
             {
-                var item = _itemService.GetItemByName(nameItem);
-                    if (!item.OnStock)
+                //var item = _itemService.GetItemByName(nameItem);
+                foreach (var item in listOfItems)
+                {
+                    if(item.Name==nameItem)
                     {
-                        Console.WriteLine($"Sorry, {item.Name} is out of stock ");
+                        if (!item.OnStock)
+                        {
+                            Console.WriteLine($"Sorry, {item.Name} is out of stock ");
+                        }
+                        else
+                        {
+                            item.IsLow();
+                        }
                     }
-                    else
-                    {
-                        item.IsLow();
-                    }
+                }
             }
             else
             {
                 Console.WriteLine("Sorry, this product is out of stock");
             }
         }
-        public void ShowCategories()
+        /*public void ShowCategories()
         {
+            _categoryService.GetAllItems();
             foreach (var cat in listOfCategories)
             {
-                Console.WriteLine(cat.CategoryId + ". " + cat.CategoryName);
+                Console.WriteLine(cat.Id + ". " + cat.CategoryName);
             }
-        }
+        }*/
 
     }
 }

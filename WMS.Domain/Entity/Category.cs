@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WMS.Domain.Common;
 
 namespace WMS
 {
-    public class Category 
+    public class Category : BaseEntity
     {
-        public int CategoryId { get;}
+        //public int CategoryId { get;}
         public  string CategoryName { get; set; }
         public Category(int categoryId, string categoryName)
         {
-            CategoryId = categoryId;
+            Id = categoryId;
             CategoryName = categoryName;
         }
        

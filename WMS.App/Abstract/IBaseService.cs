@@ -12,6 +12,6 @@ namespace WMS.App.Abstract
         void RemoveItem(T item);
         int GetLastId();
         T GetItemById(int id);
-        T GetItemByName(string name);
+        //T GetItemByName(string name);
     }
 }

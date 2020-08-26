@@ -15,7 +15,8 @@ namespace WMS
         static void Main(string[] args)
         {
             int choice;
-            ItemService service = new ItemService();
+            ItemService itemService = new ItemService();
+            CategoryService categoryService = new CategoryService();
             MenuService menuService = new MenuService();
             ItemManager itemManager = new ItemManager();
             User user = new User();
@@ -56,12 +57,12 @@ namespace WMS
                         }
                     case 5:
                         {
-                            itemManager.ShowCategories();
+                            itemService.GetAllItems();
                             break;
                         }
                     case 6:
                         {
-                            service.ShowItems();
+                            categoryService.GetAllItems();
                             break;
                         }
                     case 7:
