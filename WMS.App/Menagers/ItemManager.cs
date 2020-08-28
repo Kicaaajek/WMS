@@ -16,8 +16,8 @@ namespace WMS.App.Menagers
             _itemService= new ItemService();
             _categoryService = new CategoryService();
         }
-        public List<Category> listOfCategories = new List<Category>();
-        public List<Item> listOfItems = new List<Item>();
+        //public List<Category> listOfCategories = new List<Category>();
+        //public List<Item> listOfItems = new List<Item>();
 
         public void AddItem()
         {
@@ -35,7 +35,7 @@ namespace WMS.App.Menagers
                 int.TryParse(Console.ReadLine(), out int number);
                 if (beExist)
                 {
-                    foreach (var item in listOfItems)
+                    foreach (var item in _itemService.Items)
                     {
                         if (item.Name == nameItem)
                         {
@@ -48,7 +48,7 @@ namespace WMS.App.Menagers
                 {
                     // int idCat = _itemService.GetItemByName(nameCat).CategoryId;
                     int idCat = 0;
-                    foreach (var c in listOfCategories)
+                    foreach (var c in _categoryService.Categories)
                     {
                         if (c.CategoryName == nameCat)
                         {
@@ -56,7 +56,8 @@ namespace WMS.App.Menagers
                         }
                         break;
                     }
-                    Item item = new Item(idCat, nameCat, listOfItems.Count, nameItem, number);
+                    int itemId = _itemService.GetLastId();
+                    Item item = new Item(idCat, nameCat, itemId++, nameItem, number);
                     _itemService.AddItem(item);
                     //listOfItems.Add(item);
                     Console.WriteLine($"You add {number} {nameItem}`s.");
@@ -64,14 +65,16 @@ namespace WMS.App.Menagers
             }
             else
             {
-                Category category = new Category(listOfCategories.Count, nameCat);
+                int catId = _categoryService.GetLastCategoryId();
+                Category category = new Category(catId++, nameCat);
                 //listOfCategories.Add(category);
-                _categoryService.AddItem(category);
+                _categoryService.AddCategory(category);
                 Console.WriteLine("What item do you want to add?");
                 string nameItem = Console.ReadLine();
                 Console.WriteLine("How many items do you want to add?");
                 int.TryParse(Console.ReadLine(), out int number);
-                Item item = new Item(listOfCategories.Count, nameCat, listOfItems.Count, nameItem, number);
+                int itemId = _itemService.GetLastId();
+                Item item = new Item(catId++, nameCat, itemId++, nameItem, number);
                 _itemService.AddItem(item);
                 Console.WriteLine($"You add {number} {nameItem}`s.");
             }
@@ -87,21 +90,26 @@ namespace WMS.App.Menagers
             {
                 Console.WriteLine("How many items do you want to remove?");
                 int.TryParse(Console.ReadLine(), out int number);
-                foreach (var item in listOfItems)
+                foreach (var item in _itemService.Items)
                 {
                     if (item.Name == nameItem)
                     {
                         if (item.Quantity >= number)
                         {
                             item.Quantity -= number;
+                            Console.WriteLine($"You remove {number} {nameItem}`s.");
                         }
                         else
                         {
                             Console.WriteLine("Sorry, you want remove too many items. You don`t have it on stock");
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Something goes wrong. Sorry");
+                    }
                 }
-                    Console.WriteLine($"You remove {number} {nameItem}`s.");
+                    
             }
             else
             {
@@ -117,7 +125,7 @@ namespace WMS.App.Menagers
             if (beExist)
             {
                 //var item = _itemService.GetItemByName(nameItem);
-                foreach (var item in listOfItems)
+                foreach (var item in _itemService.Items)
                 {
                     if(item.Name==nameItem)
                         Console.WriteLine("The quantity of product is: " + item.Quantity);
@@ -130,17 +138,12 @@ namespace WMS.App.Menagers
         }
         public void IsLowLevel()
         {
-            Console.WriteLine("What item do you want to check that run out?");
+            /*Console.WriteLine("What item do you want to check that run out?");
             string nameItem = Console.ReadLine();
-            bool beExist = _itemService.Existed(nameItem);
-            //bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
-            if (beExist)
-            {
-                //var item = _itemService.GetItemByName(nameItem);
-                foreach (var item in listOfItems)
+            bool beExist = _itemService.Existed(nameItem);*/
+                      
+                foreach (var item in _itemService.Items)
                 {
-                    if(item.Name==nameItem)
-                    {
                         if (!item.OnStock)
                         {
                             Console.WriteLine($"Sorry, {item.Name} is out of stock ");
@@ -149,22 +152,10 @@ namespace WMS.App.Menagers
                         {
                             item.IsLow();
                         }
-                    }
                 }
-            }
-            else
-            {
-                Console.WriteLine("Sorry, this product is out of stock");
-            }
+            
         }
-        /*public void ShowCategories()
-        {
-            _categoryService.GetAllItems();
-            foreach (var cat in listOfCategories)
-            {
-                Console.WriteLine(cat.Id + ". " + cat.CategoryName);
-            }
-        }*/
+       
 
     }
 }

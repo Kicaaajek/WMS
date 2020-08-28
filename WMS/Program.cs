@@ -57,12 +57,12 @@ namespace WMS
                         }
                     case 5:
                         {
-                            itemService.GetAllItems();
+                            itemService.ShowItems();
                             break;
                         }
                     case 6:
                         {
-                            categoryService.GetAllItems();
+                            categoryService.ShowCategories();
                             break;
                         }
                     case 7:

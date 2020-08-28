@@ -9,24 +9,31 @@ namespace WMS.App
 {
     public class ItemService : BaseService<Item>
     {
-        private List<Item> listOfItems = new List<Item>();
+        //private List<Item> listOfItems = new List<Item>();
         public bool Existed(string nameItem)
         {
-            bool beExist = listOfItems.Exists(Item => Item.Name == nameItem);
+            bool beExist = Items.Exists(p => p.Name == nameItem);
             return beExist;
         }
-       /*public Item GetItemByName(string nameItem)
+        public void ShowItems()
         {
-            
-            foreach(var it in listOfItems)
+            foreach (var item in GetAllItems())
             {
-                if(it.Name==nameItem)
-                {
-                    return it;
-                }
+                Console.WriteLine(item);
             }
-            
-        }*/
-            
+        }
+        /*public Item GetItemByName(string nameItem)
+         {
+
+             foreach(var it in listOfItems)
+             {
+                 if(it.Name==nameItem)
+                 {
+                     return it;
+                 }
+             }
+
+         }*/
+
     }
 }
