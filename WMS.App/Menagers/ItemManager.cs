@@ -51,7 +51,7 @@ namespace WMS.App.Menagers
                         break;
                     }
                     int itemId = _itemService.GetLastId();
-                    Item item = new Item(idCat, nameCat, itemId++, nameItem, number);
+                    Item item = new Item(idCat, nameCat, itemId+1, nameItem, number);
                     _itemService.AddItem(item);
                     Console.WriteLine($"You add {number} {nameItem}`s.");
                 }
@@ -59,19 +59,18 @@ namespace WMS.App.Menagers
             else
             {
                 int catId = _categoryService.GetLastId();
-                Category category = new Category(catId++, nameCat);
+                Category category = new Category(catId+1, nameCat);
                 _categoryService.AddItem(category);
                 Console.WriteLine("What item do you want to add?");
                 string nameItem = Console.ReadLine();
                 Console.WriteLine("How many items do you want to add?");
                 int.TryParse(Console.ReadLine(), out int number);
                 int itemId = _itemService.GetLastId();
-                Item item = new Item(catId++, nameCat, itemId++, nameItem, number);
+                Item item = new Item(catId+1, nameCat, itemId+1, nameItem, number);
                 _itemService.AddItem(item);
                 Console.WriteLine($"You add {number} {nameItem}`s.");
             }
         }
-
         public void RemoveItem()
         {
             Console.WriteLine("What item do you want to remove?");
@@ -138,9 +137,20 @@ namespace WMS.App.Menagers
                     item.IsLow();
                 }
             }
-
         }
-
-
+        public void ShowItems()
+        {
+            foreach (var item in _itemService.GetAllItems())
+            {
+                Console.WriteLine($"{item.Id}. {item.Name}");
+            }
+        }
+        public void ShowCategories()
+        {
+            foreach (var category in _categoryService.GetAllItems())
+            {
+                Console.WriteLine($"{category.Id}. {category.CategoryName}");
+            }
+        }
     }
 }

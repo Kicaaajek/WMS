@@ -11,13 +11,5 @@ namespace WMS.App.Concrete
             bool beExistCategory = Items.Exists(p => p.CategoryName == nameCat);
             return beExistCategory;
         }
-        public void ShowCategories()
-        {
-            foreach (var category in GetAllItems())
-            {
-                Console.WriteLine($"{category.Id}. {category.CategoryName}");
-            }
-        }
-        
     }
 }

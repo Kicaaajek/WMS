@@ -14,12 +14,5 @@ namespace WMS.App
             bool beExist = Items.Exists(p => p.Name == nameItem);
             return beExist;
         }
-        public void ShowItems()
-        {
-            foreach (var item in GetAllItems())
-            {
-                Console.WriteLine($"{item.Id}. {item.Name}");
-            }
-        }
     }
 }
