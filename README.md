@@ -1,5 +1,4 @@
-<h2>App is in build
-
+<h2>App is in the early development phase.
 This project will include:<br>
 1.App welcome the users.<br>
 2.User see the menu.<br>
