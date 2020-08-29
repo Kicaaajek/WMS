@@ -6,18 +6,16 @@ namespace WMS.App.Concrete
 {
     public class CategoryService: BaseService<Category>
     {
-        //private List<Category> listOfCategories = new List<Category>();
-        
         public bool Existed(string nameCat)
         {
-            bool beExistCategory = Categories.Exists(p => p.CategoryName == nameCat);
+            bool beExistCategory = Items.Exists(p => p.CategoryName == nameCat);
             return beExistCategory;
         }
         public void ShowCategories()
         {
-            foreach (var category in GetAllCategories())
+            foreach (var category in GetAllItems())
             {
-                Console.WriteLine(category);
+                Console.WriteLine($"{category.Id}. {category.CategoryName}");
             }
         }
         

@@ -6,8 +6,6 @@ namespace WMS.Domain
 {
     public class Item : Category 
     { 
-        
-        //public int Id { get;}
         public string Name { get; set; }
         public int Quantity { get; set; }
         public bool OnStock { get; set; }
@@ -17,7 +15,6 @@ namespace WMS.Domain
             Name = name;
             Quantity = quantity;
         }
-        // AuditableModel auditableModel = new AuditableModel();
        
         public void IsOnStock()
         {
