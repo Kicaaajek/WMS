@@ -12,17 +12,6 @@ namespace WMS.App.Concrete
         {
             Initialize();
         }
-
-        public List<Menu> GetMenu()
-        {
-            List<Menu> menus = new List<Menu>();
-            foreach(var menu in Items)
-            {
-                    menus.Add(menu);
-            }
-            return menus;
-        }
-
         private void Initialize()
         {
             AddItem(new Menu(1, "Add item"));

@@ -11,7 +11,7 @@ namespace WMS.App.Menagers
     {
         private ItemService _itemService;
         private CategoryService _categoryService;
-        public ItemManager()
+        public ItemManager() 
         {
             _itemService = new ItemService();
             _categoryService = new CategoryService();
@@ -30,7 +30,7 @@ namespace WMS.App.Menagers
                 int.TryParse(Console.ReadLine(), out int number);
                 if (beExist)
                 {
-                    foreach (var item in _itemService.Items)
+                    foreach (var item in _itemService.GetAllItems())
                     {
                         if (item.Name == nameItem)
                         {
@@ -42,7 +42,7 @@ namespace WMS.App.Menagers
                 else
                 {
                     int idCat = 0;
-                    foreach (var c in _categoryService.Items)
+                    foreach (var c in _categoryService.GetAllItems())
                     {
                         if (c.CategoryName == nameCat)
                         {
@@ -80,7 +80,7 @@ namespace WMS.App.Menagers
             {
                 Console.WriteLine("How many items do you want to remove?");
                 int.TryParse(Console.ReadLine(), out int number);
-                foreach (var item in _itemService.Items)
+                foreach (var item in _itemService.GetAllItems())
                 {
                     if (item.Name == nameItem)
                     {
@@ -90,7 +90,7 @@ namespace WMS.App.Menagers
                             Console.WriteLine($"You remove {number} {nameItem}`s.");
                             if(item.Quantity==0)
                             {
-                                _itemService.Items.Remove(item);
+                                _itemService.GetAllItems().Remove(item);
                             }
                         }
                         else
@@ -113,7 +113,7 @@ namespace WMS.App.Menagers
             bool beExist = _itemService.Existed(nameItem);
             if (beExist)
             {
-                foreach (var item in _itemService.Items)
+                foreach (var item in _itemService.GetAllItems())
                 {
                     if (item.Name == nameItem)
                         Console.WriteLine("The quantity of product is: " + item.Quantity);
@@ -126,7 +126,7 @@ namespace WMS.App.Menagers
         }
         public void IsLowLevel()
         {
-            foreach (var item in _itemService.Items)
+            foreach (var item in _itemService.GetAllItems())
             {
                 if (!item.OnStock)
                 {

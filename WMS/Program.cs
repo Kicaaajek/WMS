@@ -15,21 +15,18 @@ namespace WMS
         static void Main(string[] args)
         {
             int choice;
-            ItemService itemService = new ItemService();
-            CategoryService categoryService = new CategoryService();
-            MenuService menuService = new MenuService();
             ItemManager itemManager = new ItemManager();
-            User user = new User();
+            MenuManager menuManager = new MenuManager();
             Console.WriteLine("Welcome to warehouse app!");
-            user.Login();
+            Console.WriteLine("Please write your ID number");
+            int.TryParse(Console.ReadLine(), out int userId);
+            Console.WriteLine("Please write your user name");
+            string userName = Console.ReadLine();
+            User user = new User(userId, userName);
             do
             {
                 Console.WriteLine("Please let me know what do you want to do?");
-                var menu = menuService.GetMenu();
-                for(int i=0;i<menu.Count;i++)
-                {
-                    Console.WriteLine($"{menu[i].Id}. {menu[i].Name}");
-                }
+                menuManager.ShowMenu();
                 Console.WriteLine("Please press correct number.");
                 int.TryParse(Console.ReadLine(), out choice);
                 Console.WriteLine($"You have chosen option number: {choice}.");
@@ -70,7 +67,6 @@ namespace WMS
                             Console.WriteLine("Good bye!");
                             break;
                         }
-                        
                     default:
                         {
                             Console.WriteLine("Sorry, You have chosen wrong number");

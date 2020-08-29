@@ -10,12 +10,11 @@ namespace WMS.App.Concrete
 {
     public abstract class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
-        public List<T> Items { get; set; }
+        protected List<T> Items { get; set; }
         public BaseService()
         {
             Items = new List<T>();
         }
-
         public void AddItem(T item)
         {
             Items.Add(item);
