@@ -30,26 +30,13 @@ namespace WMS.App.Menagers
                 int.TryParse(Console.ReadLine(), out int number);
                 if (beExist)
                 {
-                    foreach (var item in _itemService.GetAllItems())
-                    {
-                        if (item.Name == nameItem)
-                        {
-                            item.Quantity += number;
-                        }
-                        Console.WriteLine($"You add {number} {nameItem}`s.");
-                    }
+                    _itemService.AddQuantity(nameItem, number);
+                    Console.WriteLine($"You add {number} {nameItem}`s.");
+                    
                 }
                 else
                 {
-                    int idCat = 0;
-                    foreach (var c in _categoryService.GetAllItems())
-                    {
-                        if (c.CategoryName == nameCat)
-                        {
-                            idCat = c.Id;
-                        }
-                        break;
-                    }
+                    int idCat = _categoryService.GetCatId(nameCat);
                     int itemId = _itemService.GetLastId();
                     Item item = new Item(idCat, nameCat, itemId+1, nameItem, number);
                     _itemService.AddItem(item);
@@ -80,26 +67,19 @@ namespace WMS.App.Menagers
             {
                 Console.WriteLine("How many items do you want to remove?");
                 int.TryParse(Console.ReadLine(), out int number);
-                foreach (var item in _itemService.GetAllItems())
+                int quantity=_itemService.RemoveQuantity(nameItem, number);
+                if(quantity>=number)
                 {
-                    if (item.Name == nameItem)
+                    Console.WriteLine($"You removed {number} {nameItem}");
+                    if(quantity==number)
                     {
-                        if (item.Quantity >= number)
-                        {
-                            item.Quantity -= number;
-                            Console.WriteLine($"You remove {number} {nameItem}`s.");
-                            if(item.Quantity==0)
-                            {
-                                _itemService.GetAllItems().Remove(item);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Sorry, you want remove too many items. You don`t have it on stock");
-                        }
+                        Console.WriteLine($"The {nameItem} is out of stock now");
                     }
                 }
-
+                else
+                {
+                    Console.WriteLine("Sorry, you want remove too many items. You don`t have it on stock");
+                }
             }
             else
             {
@@ -113,11 +93,8 @@ namespace WMS.App.Menagers
             bool beExist = _itemService.Existed(nameItem);
             if (beExist)
             {
-                foreach (var item in _itemService.GetAllItems())
-                {
-                    if (item.Name == nameItem)
-                        Console.WriteLine("The quantity of product is: " + item.Quantity);
-                }
+                int quantity = _itemService.GetQuantity(nameItem);
+                Console.WriteLine("The quantity of product is: " + quantity);
             }
             else
             {
@@ -126,30 +103,28 @@ namespace WMS.App.Menagers
         }
         public void IsLowLevel()
         {
-            foreach (var item in _itemService.GetAllItems())
+            foreach(var i in _itemService.IsLow())
             {
-                if (!item.OnStock)
-                {
-                    Console.WriteLine($"Sorry, {item.Name} is out of stock ");
-                }
-                else
-                {
-                    item.IsLow();
-                }
-            }
+                Console.WriteLine($"The {i.Name} is run out of stock");
+            }    
+            
         }
         public void ShowItems()
         {
-            foreach (var item in _itemService.GetAllItems())
+            int a = 1;
+            foreach(var i in _itemService.GetAll())
             {
-                Console.WriteLine($"{item.Id}. {item.Name}");
+                Console.WriteLine($"{a}. {i}");
+                a++;
             }
         }
         public void ShowCategories()
         {
-            foreach (var category in _categoryService.GetAllItems())
+            int a = 1;
+            foreach (var i in _categoryService.GetAll())
             {
-                Console.WriteLine($"{category.Id}. {category.CategoryName}");
+                Console.WriteLine($"{a}. {i}");
+                a++;
             }
         }
     }
