@@ -15,7 +15,7 @@ namespace WMS.Tests
 {
     public class UnitTest1
     {
-        
+
 
         public ItemService MakeList()
         {
@@ -39,7 +39,7 @@ namespace WMS.Tests
         public void IfItemExisted()
         {
             ItemService itemService = MakeList();
-            var exist= itemService.Existed("Apples");
+            var exist = itemService.Existed("Apples");
             Assert.True(exist);
         }
 
@@ -47,8 +47,8 @@ namespace WMS.Tests
         public void IfGetQuantity()
         {
             ItemService itemService = MakeList();
-            int quantity=itemService.GetQuantity("Apples");
-            Assert.Equal(6,quantity);
+            int quantity = itemService.GetQuantity("Apples");
+            Assert.Equal(6, quantity);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace WMS.Tests
             ItemService itemService = new ItemService();
             //int number = itemService.GetQuantity("Pineapples");
             itemService.AddQuantity("Pineapples", 4);
-            int quantity= itemService.GetQuantity("Pineapples");
+            int quantity = itemService.GetQuantity("Pineapples");
             Assert.Equal(10, quantity);
         }
 
