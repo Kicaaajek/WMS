@@ -11,10 +11,10 @@ namespace WMS.App.Menagers
     {
         private ItemService _itemService;
         private CategoryService _categoryService;
-        public ItemManager() 
+        public ItemManager(ItemService itemService, CategoryService categoryService)
         {
-            _itemService = new ItemService();
-            _categoryService = new CategoryService();
+            _itemService = itemService;
+            _categoryService = categoryService;
         }
         public void AddItem()
         {
@@ -105,7 +105,7 @@ namespace WMS.App.Menagers
         {
             foreach(var i in _itemService.IsLow())
             {
-                Console.WriteLine($"The {i.Name} is run out of stock");
+                Console.WriteLine($"The {i.Name}");
             }    
             
         }
