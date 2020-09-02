@@ -22,15 +22,5 @@ namespace WMS.App.Concrete
             AddItem(new Menu(6, "Show list of categories"));
             AddItem(new Menu(7, "Close app"));
         }
-        /*public void GetItem()
-        {
-            foreach(var m in Items)
-            {
-                int menuId;
-                string menuName;
-                menuId = m.Id;
-                menuName = m.Name;
-            }
-        }*/
     }
 }

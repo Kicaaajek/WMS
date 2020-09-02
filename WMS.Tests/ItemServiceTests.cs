@@ -13,7 +13,7 @@ using Xunit;
 
 namespace WMS.Tests
 {
-    public class UnitTest1
+    public class ItemServiceTests
     {
 
 
@@ -23,10 +23,16 @@ namespace WMS.Tests
             Item item = new Item(1, "Fruits", 1, "Apples", 6);
             Item item2 = new Item(1, "Fruits", 2, "Plums", 2);
             Item item3 = new Item(1, "Fruits", 3, "Pineapples", 6);
-            Item item4 = new Item(2, "Vegetables", 1, "Onions", 12);
-            Item item5 = new Item(2, "Vegetables", 2, "Broccolies", 1);
+            Item item4 = new Item(2, "Vegetables", 4, "Onions", 12);
+            Item item5 = new Item(2, "Vegetables", 5, "Broccolies", 1);
             ItemService _itemService = new ItemService();
-            IBaseService<Category> categoryService = new CategoryService();
+            /*var mock = new Mock< IBaseService<Item>>();
+            mock.Setup(s => s.GetItemById(1)).Returns(item);
+            mock.Setup(s => s.GetItemById(2)).Returns(item2);
+            mock.Setup(s => s.GetItemById(3)).Returns(item3);
+            mock.Setup(s => s.GetItemById(4)).Returns(item4);
+            mock.Setup(s => s.GetItemById(5)).Returns(item5);
+            return mock;*/
             _itemService.AddItem(item);
             _itemService.AddItem(item2);
             _itemService.AddItem(item3);
@@ -67,7 +73,7 @@ namespace WMS.Tests
             ItemService itemService = MakeList();
             //List<Item> Items = new List<Item>();
             var items = itemService.GetAll().ToList();
-            //Assert.Equal(, items);
+            Assert.Equal(5, items.Count);
         }
 
         [Fact]
