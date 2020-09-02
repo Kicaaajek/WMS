@@ -54,7 +54,7 @@ namespace WMS.Tests
         [Fact]
         public void IfChangeQuantity()
         {
-            ItemService itemService = new ItemService();
+            ItemService itemService = MakeList();
             //int number = itemService.GetQuantity("Pineapples");
             itemService.AddQuantity("Pineapples", 4);
             int quantity = itemService.GetQuantity("Pineapples");
@@ -64,10 +64,27 @@ namespace WMS.Tests
         [Fact]
         public void IfGetAll()
         {
-            ItemService itemService = new ItemService();
+            ItemService itemService = MakeList();
             //List<Item> Items = new List<Item>();
             var items = itemService.GetAll().ToList();
-            //Assert.Equal(itemService, items);
+            //Assert.Equal(, items);
+        }
+
+        [Fact]
+        public void IfRemoveQuantity()
+        {
+            ItemService itemService = MakeList();
+            itemService.RemoveQuantity("Onions", 4);
+            int quantity = itemService.GetQuantity("Onions");
+            Assert.Equal(8, quantity);
+        }
+
+        [Fact]
+        public void IfIsLow()
+        {
+            ItemService itemService = MakeList();
+            List<Item> items= itemService.IsLow();
+            Assert.Equal(2, items.Count);
         }
     }
 }

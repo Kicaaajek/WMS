@@ -16,6 +16,10 @@ namespace WMS.App.Menagers
             _itemService = itemService;
             _categoryService = categoryService;
         }
+        public ItemManager()
+        {
+
+        }
         public void AddItem()
         {
             Console.WriteLine("What is category of item which you want to add?");
