@@ -17,12 +17,9 @@ namespace WMS
             int choice;
             ItemManager itemManager = new ItemManager();
             MenuManager menuManager = new MenuManager();
+            UserManager userManager = new UserManager();
             Console.WriteLine("Welcome to warehouse app!");
-            Console.WriteLine("Please write your ID number");
-            int.TryParse(Console.ReadLine(), out int userId);
-            Console.WriteLine("Please write your user name");
-            string userName = Console.ReadLine();
-            User user = new User(userId, userName);
+            userManager.Login();
             do
             {
                 Console.WriteLine("Please let me know what do you want to do?");

@@ -1,17 +1,24 @@
-﻿using System;
+﻿using CsvHelper.Configuration.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
+using WMS.Domain.Common;
 
 namespace WMS.Domain
 {
-    public class User
+    public class User : BaseEntity
     {
-        public int UserId { get; set; }
+        [XmlElement("UserName")]
         public string UserName { get; set; }
         public User(int userId, string userName)
         {
-            UserId = userId;
+            Id = userId;
             UserName = userName;
+        }
+        public User()
+        {
+
         }
     }
     

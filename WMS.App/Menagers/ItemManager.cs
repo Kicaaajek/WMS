@@ -36,6 +36,7 @@ namespace WMS.App.Menagers
                 {
                     _itemService.AddQuantity(nameItem, number);
                     Console.WriteLine($"You add {number} {nameItem}`s.");
+                    //_itemService.Update();
                     
                 }
                 else
@@ -44,6 +45,7 @@ namespace WMS.App.Menagers
                     int itemId = _itemService.GetLastId();
                     Item item = new Item(idCat, nameCat, itemId+1, nameItem, number);
                     _itemService.AddItem(item);
+                    //_itemService.Update(item);
                     Console.WriteLine($"You add {number} {nameItem}`s.");
                 }
             }
@@ -115,20 +117,16 @@ namespace WMS.App.Menagers
         }
         public void ShowItems()
         {
-            int a = 1;
             foreach(var i in _itemService.GetAll())
             {
-                Console.WriteLine($"{a}. {i}");
-                a++;
+                Console.WriteLine($"{i.Id}. {i.Name}");
             }
         }
         public void ShowCategories()
         {
-            int a = 1;
             foreach (var i in _categoryService.GetAll())
             {
-                Console.WriteLine($"{a}. {i}");
-                a++;
+                Console.WriteLine($"{i.Id}. {i.CategoryName}");
             }
         }
     }

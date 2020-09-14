@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using WMS.App.Abstract;
 using WMS.Domain;
 using WMS.Domain.Common;
@@ -45,5 +47,35 @@ namespace WMS.App.Concrete
             var entity = Items.FirstOrDefault(p => p.Id == id);
             return entity;
         }
+        public List<T> Load(string name, string path)
+        {
+            XmlRootAttribute root = new XmlRootAttribute();
+            root.ElementName = name;
+            root.IsNullable = true;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>), root);
+            if (!File.Exists(path))
+            {
+                Items = new List<T>();
+            }
+            else
+            {
+                string output = File.ReadAllText(path);
+                StringReader stringReader = new StringReader(output);
+                Items = (List<T>)xmlSerializer.Deserialize(stringReader);
+            }
+            return Items;
+        }
+        public void Update(T item, string name, string path)
+        {
+            XmlRootAttribute root = new XmlRootAttribute();
+            root.ElementName = name;
+            root.IsNullable = true;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>), root);
+            using (StreamWriter streamWriter=new StreamWriter(path))
+            {
+                xmlSerializer.Serialize(streamWriter, Items);
+            }
+        }
+
     }
 }
