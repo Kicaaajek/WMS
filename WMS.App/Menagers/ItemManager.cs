@@ -9,13 +9,15 @@ namespace WMS.App.Menagers
 {
     public class ItemManager
     {
-        private ItemService _itemService;
+        /*private ItemService _itemService;
         private CategoryService _categoryService;
         public ItemManager(ItemService itemService, CategoryService categoryService)
         {
             _itemService = itemService;
             _categoryService = categoryService;
-        }
+        }*/
+        private readonly ItemService _itemService = new ItemService();
+        private readonly CategoryService _categoryService = new CategoryService();
         public ItemManager()
         {
 
@@ -24,7 +26,12 @@ namespace WMS.App.Menagers
         {
             Console.WriteLine("What is category of item which you want to add?");
             string nameCat = Console.ReadLine();
-            bool beExistCategory = _categoryService.Existed(nameCat);
+            bool beExistCategory;
+            bool isEmpty = _categoryService.Empty();
+            if (isEmpty)
+                beExistCategory = false;
+            else
+                beExistCategory = _categoryService.Existed(nameCat);
             if (beExistCategory)
             {
                 Console.WriteLine("What item do you want to add?");
@@ -35,9 +42,7 @@ namespace WMS.App.Menagers
                 if (beExist)
                 {
                     _itemService.AddQuantity(nameItem, number);
-                    Console.WriteLine($"You add {number} {nameItem}`s.");
-                    //_itemService.Update();
-                    
+                    Console.WriteLine($"You add {number} {nameItem}`s.");                    
                 }
                 else
                 {
@@ -45,7 +50,7 @@ namespace WMS.App.Menagers
                     int itemId = _itemService.GetLastId();
                     Item item = new Item(idCat, nameCat, itemId+1, nameItem, number);
                     _itemService.AddItem(item);
-                    //_itemService.Update(item);
+                    _itemService.UpdateNewItem(item);
                     Console.WriteLine($"You add {number} {nameItem}`s.");
                 }
             }
@@ -54,6 +59,7 @@ namespace WMS.App.Menagers
                 int catId = _categoryService.GetLastId();
                 Category category = new Category(catId+1, nameCat);
                 _categoryService.AddItem(category);
+                _categoryService.UpdateNewCategory(category);
                 Console.WriteLine("What item do you want to add?");
                 string nameItem = Console.ReadLine();
                 Console.WriteLine("How many items do you want to add?");
@@ -61,6 +67,7 @@ namespace WMS.App.Menagers
                 int itemId = _itemService.GetLastId();
                 Item item = new Item(catId+1, nameCat, itemId+1, nameItem, number);
                 _itemService.AddItem(item);
+                _itemService.UpdateNewItem(item);
                 Console.WriteLine($"You add {number} {nameItem}`s.");
             }
         }

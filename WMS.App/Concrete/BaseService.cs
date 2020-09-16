@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using WMS.App.Abstract;
 using WMS.Domain;
@@ -49,9 +50,11 @@ namespace WMS.App.Concrete
         }
         public List<T> Load(string name, string path)
         {
-            XmlRootAttribute root = new XmlRootAttribute();
-            root.ElementName = name;
-            root.IsNullable = true;
+            XmlRootAttribute root = new XmlRootAttribute
+            {
+                ElementName = name,
+                IsNullable = true
+            };
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>), root);
             if (!File.Exists(path))
             {
@@ -65,17 +68,16 @@ namespace WMS.App.Concrete
             }
             return Items;
         }
-        public void Update(T item, string name, string path)
+        public void AddNewItem(T item, string name, string path)
         {
-            XmlRootAttribute root = new XmlRootAttribute();
-            root.ElementName = name;
-            root.IsNullable = true;
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>), root);
-            using (StreamWriter streamWriter=new StreamWriter(path))
+            XmlRootAttribute root = new XmlRootAttribute
             {
-                xmlSerializer.Serialize(streamWriter, Items);
-            }
+                ElementName = name,
+                IsNullable = true
+            };
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>), root);
+            using StreamWriter streamWriter = new StreamWriter(path);
+            xmlSerializer.Serialize(streamWriter, Items);
         }
-
     }
 }

@@ -11,16 +11,15 @@ namespace WMS
     {
         [XmlElement("CategoryName")]
         public  string CategoryName { get; set; }
+        public Category()
+        {
+
+        }
         public Category(int categoryId, string categoryName)
         {
             Id = categoryId;
             CategoryName = categoryName;
         }
-        public Category()
-        {
-
-        }
-       
     }
    
 

@@ -13,8 +13,7 @@ namespace WMS.App.Concrete
 {
     public class UserService : BaseService<User>
     {
-        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\Categories.csv";
-
+        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Users.xml";
         public UserService()
         {
             Items = Load("Users", path);
@@ -24,7 +23,7 @@ namespace WMS.App.Concrete
         {
             var user = new User(id, name);
             Items.Add(user);
-            Update(user,user.UserName,path);
+            AddNewItem(user,"Users",path);
         }
         public bool ExistedId(int id)
         {

@@ -11,14 +11,14 @@ namespace WMS.Domain
     {
         [XmlElement("UserName")]
         public string UserName { get; set; }
+        public User()
+        {
+
+        }
         public User(int userId, string userName)
         {
             Id = userId;
             UserName = userName;
-        }
-        public User()
-        {
-
         }
     }
     

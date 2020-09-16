@@ -7,7 +7,7 @@ namespace WMS.App.Menagers
 {
     public class MenuManager
     {
-        private MenuService _menuService;
+        private readonly MenuService _menuService;
         public MenuManager()
         {
             _menuService = new MenuService();

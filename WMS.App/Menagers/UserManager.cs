@@ -8,12 +8,7 @@ namespace WMS.App.Menagers
 {
     public class UserManager
     {
-        /* private UserService _userService;
-         public UserManager(UserService userService)
-         {
-             _userService = userService;
-         }*/
-        private UserService _userService = new UserService();
+        private readonly UserService _userService = new UserService();
         public UserManager()
         {
 
@@ -72,6 +67,34 @@ namespace WMS.App.Menagers
                     else if (!existedId && existedName)
                     {
                         Console.WriteLine("The entered ID is incorrect");
+                    }
+                    else if(!existedId && !existedName)
+                    {
+                        Console.WriteLine("Are you a new users?");
+                        Console.WriteLine("What do you want to do?");
+                        Console.WriteLine("1.Add new users");
+                        Console.WriteLine("2.Exit");
+                        int.TryParse(Console.ReadLine(), out int choice);
+                        switch (choice)
+                        {
+                            case 1:
+                                {
+                                    _userService.AddNewUser(userId, userName);
+                                    Console.WriteLine("Your data has been added");
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    Console.WriteLine("Goodbye!");
+                                    isCorrect = true;
+                                    break;
+                                }
+                            default:
+                                {
+                                    Console.WriteLine("Sorry, You have chosen wrong number");
+                                    break;
+                                }
+                        }
                     }
                 }
             } while (!isCorrect);

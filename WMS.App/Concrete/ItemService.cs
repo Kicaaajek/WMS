@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using WMS.App.Concrete;
 using WMS.Domain;
@@ -16,7 +17,7 @@ namespace WMS.App
 {
     public class ItemService : BaseService<Item>
     {
-        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\Items.csv";
+        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Items.xml";
         public ItemService()
         {
             Items = Load("Items",path);
@@ -33,8 +34,13 @@ namespace WMS.App
                 if (item.Name == nameItem)
                 {
                     item.Quantity += number;
+                    UpdateItem(item, item.Quantity);
                 }
             }
+        }
+        public void UpdateNewItem(Item item)
+        {
+            AddNewItem(item, "Items", path);
         }
         public int RemoveQuantity(string nameItem, int number)
         {
@@ -52,6 +58,11 @@ namespace WMS.App
                         {
                             RemoveItem(item);
                         }
+                        else
+                        {
+                            UpdateItem(item, quantity);
+                        }
+
                     }
                 }
             }
@@ -82,35 +93,17 @@ namespace WMS.App
         {
             return Items.Where(i => i.Quantity < 5).ToList();
         }
-      
+        public void UpdateItem(Item item, int quantity)
+        {
+            XDocument xml = XDocument.Load("Items.xml");
+            var i = xml.Root.Elements("Item").Where(i => i.Attribute("Id").Value == item.Id.ToString());
+            if(i.Any())
+            {
+                i.First().Element("Quantity").Value = quantity.ToString();
+            }
+            xml.Save(@"Items.xml");
+        }
         /*
-        public List<Item> Load()
-        {
-            var items = new List<Item>();
-            XmlRootAttribute root = new XmlRootAttribute();
-            root.ElementName = "Items";
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>), root);
-            //if(!File.Exists())
-            string output = File.ReadAllText(@"Items.xml");
-            StringReader stringReader = new StringReader(output);
-            items = (List<Item>)xmlSerializer.Deserialize(stringReader);
-            return items;
-            /*string fileName = @"Items.csv";
-            using var sr = new StreamReader(fileName);
-            using var csvReader = new CsvReader(sr, CultureInfo.InvariantCulture);
-            csvReader.Configuration.RegisterClassMap<ItemMap>();
-            var records = csvReader.GetRecords<Item>().ToList();
-            return records;
-        }
-        public void Update(Item item)
-        {
-            using var stream = File.Open(@"Items.csv", FileMode.Append);
-            using var writer = new StreamWriter(stream);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.Configuration.HasHeaderRecord = false;
-            csv.WriteRecords((IEnumerable<Item>)item);
-            //CsvSerializer cs = new CsvSerializer(csv, CultureInfo.InvariantCulture);
-        }
         public void NewUser(int UserId, string UserName)
         {
             AuditableModel.CreatedById = UserId;

@@ -12,10 +12,15 @@ namespace WMS.App.Concrete
 {
     public class CategoryService: BaseService<Category>
     {
-        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\Categories.csv";
+        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Categories.xml";
         public CategoryService()
         {
             Items = Load("Categories",path);
+        }
+        public bool Empty()
+        {
+            bool isEmpty = Items.Any();
+            return isEmpty;
         }
         public bool Existed(string nameCat)
         {
@@ -42,6 +47,10 @@ namespace WMS.App.Concrete
                 list.Add(i);
             }
             return list;
+        }
+        public void UpdateNewCategory(Category category)
+        {
+            AddNewItem(category, "Categories", path);
         }
         /*public List<Category> Load()
         {

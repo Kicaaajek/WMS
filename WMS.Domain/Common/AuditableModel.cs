@@ -6,19 +6,22 @@ using System.Xml.Serialization;
 namespace WMS.Domain.Common
 {
     public class AuditableModel
-    {/*
-        [XmlIgnore]
+    {
+      /*  [XmlIgnore]
         public int CreatedById { get; set; }
+        [XmlIgnore]
         public string CreatedByName { get; set; }
         [XmlIgnore]
         public DateTime CreatedDateTime { get; set; }
         [XmlIgnore]
         public int? ModifiedById { get; set; }
+        [XmlIgnore]
         public string? ModifiedByName { get; set; }
         [XmlIgnore]
-        public DateTime? ModifiedDateTime { get; set; }*/
+        public DateTime? ModifiedDateTime { get; set; }
         public AuditableModel()
         {
         }
+    */
     }
 }

@@ -10,5 +10,9 @@ namespace WMS.Domain.Common
     {
         [XmlAttribute("Id")]
         public int Id { get; set; }
+        public BaseEntity()
+        {
+
+        }
     }
 }
