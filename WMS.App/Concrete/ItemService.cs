@@ -17,7 +17,8 @@ namespace WMS.App
 {
     public class ItemService : BaseService<Item>
     {
-        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Items.xml";
+        private readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Items.xml");
+        //private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Items.xml";
         public ItemService()
         {
             Items = Load("Items",path);

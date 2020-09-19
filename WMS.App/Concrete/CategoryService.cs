@@ -12,7 +12,8 @@ namespace WMS.App.Concrete
 {
     public class CategoryService: BaseService<Category>
     {
-        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Categories.xml";
+        private readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Categories.xml");
+        //private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Categories.xml";
         public CategoryService()
         {
             Items = Load("Categories",path);

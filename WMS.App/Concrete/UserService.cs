@@ -13,7 +13,8 @@ namespace WMS.App.Concrete
 {
     public class UserService : BaseService<User>
     {
-        private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Users.xml";
+        private readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Users.xml");
+        //private readonly string path = @"C:\Users\zajce\Desktop\pracainżynierska\KursDotNEtaMagazyn\Warehouse\WMS\WMS\bin\Debug\netcoreapp3.1\Users.xml";
         public UserService()
         {
             Items = Load("Users", path);

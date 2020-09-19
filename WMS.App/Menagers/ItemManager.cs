@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using WMS.App.Concrete;
@@ -116,10 +117,17 @@ namespace WMS.App.Menagers
         }
         public void IsLowLevel()
         {
-            foreach(var i in _itemService.IsLow())
+            if (_itemService.IsLow().Any())
             {
-                Console.WriteLine($"The {i.Name}");
-            }    
+                foreach (var i in _itemService.IsLow())
+                {
+                    Console.WriteLine($"The {i.Name}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Any item doesn`t have quantity lower than 5");
+            }
             
         }
         public void ShowItems()
